@@ -1,6 +1,3 @@
-/**
- * Created by user on 17.11.2016.
- */
 function getBookById(id) {
     document.getElementById('book').textContent = 'Please wait. Book is loading';
 
@@ -23,9 +20,12 @@ function loadPage(bookId) {
 
     fetch('api/books/' + id, {
         method: 'GET'
-    }).
-        then(function (response) {
-            document.getElementById('book').textContent = response.name;
+    }).then(function (response) {
+        document.getElementById('book').textContent = response.name;
+        return response;
+
+    })
+        .then(function (response) {
             fetch('api/autors' + response.authorId,
                 {
                     method: 'GET'
@@ -47,9 +47,8 @@ function loadPage(bookId) {
                         return response;
                     }));
                     return response;
-                });
-        })
-        .catch(function (error) {
+                })
+        }).catch(function (error) {
             document.getElementById('book').textContent = 'Error. Please refresh your browser';
         });
 
